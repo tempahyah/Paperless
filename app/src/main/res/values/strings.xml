@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Paperless</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Paperless</string>
+    <string name="nav_header_subtitle">enovatesoftug.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="like">Scan Bar/QR Code</string>
+    <string name="camera">Open Camera</string>
+    <string name="details">View Details</string>
+    <string name="unlike">Attach New Document</string>
+    <string name="backdrop_title">New Customers</string>
+    <string name="backdrop_subtitle">List of New Customers</string>
+</resources>

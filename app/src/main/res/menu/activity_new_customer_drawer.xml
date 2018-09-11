@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_new_customers"
+            android:icon="@drawable/new_customers"
+            android:title="New Customers" />
+        <item
+            android:id="@+id/nav_new_transactions"
+            android:icon="@drawable/transaction_people"
+            android:title="New Transactions" />
+        <item
+            android:id="@+id/nav_existing_customers"
+            android:icon="@drawable/existing_customers"
+            android:title="Existing Customers" />
+    </group>
+
+    <item android:title=" ">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/about"
+                android:title="About" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/policy"
+                android:title="Company Policy" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/exit"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>
