@@ -21,8 +21,9 @@
             <ImageView
                 android:id="@+id/itemImage"
                 android:layout_marginTop="2dp"
-                android:layout_width="100dp"
-                android:layout_height="@dimen/album_cover_height"
+                android:layout_marginBottom="5dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
