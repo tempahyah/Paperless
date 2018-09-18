@@ -132,8 +132,8 @@ public class InformationRequirements extends AppCompatActivity {
 
                                 SubSection subSection = new SubSection();
 
-                                subSection.setName(obj.getString("name"));
-                                subSection.setImage(obj.getString("image"));
+                                subSection.setName(obj.getString("document_type"));
+                                subSection.setImage(obj.getString("doc_path"));
 
 
                                 subSections.add(subSection);
