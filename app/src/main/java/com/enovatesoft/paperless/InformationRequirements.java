@@ -2,8 +2,6 @@ package com.enovatesoft.paperless;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,26 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.enovatesoft.paperless.adapters.RecyclerViewDataAdapter;
 import com.enovatesoft.paperless.adapters.RecyclerViewDataRequirementsAdapater;
-import com.enovatesoft.paperless.models.Data;
 import com.enovatesoft.paperless.models.DataRequirements;
-import com.enovatesoft.paperless.models.Section;
 import com.enovatesoft.paperless.models.SubSection;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import cz.msebera.android.httpclient.Header;
 
 public class InformationRequirements extends AppCompatActivity {
@@ -39,7 +29,6 @@ public class InformationRequirements extends AppCompatActivity {
     private Button submit_details;
 
     private TextView nameField, uIdField;
-
 
     List<DataRequirements> allSubSectionData;
     private String TEST_URL="http://192.168.8.9/paperless/imageAPI.php";
@@ -154,15 +143,6 @@ public class InformationRequirements extends AppCompatActivity {
                     }
 
 
-                    // Converst json to Object Model data
-                   /* Gson gson = new Gson();
-                    Type collectionType = new TypeToken<Data>() {
-                    }.getType();
-                    allSampleData = gson.fromJson(response.toString(), collectionType);*/
-
-
-                    // setting data to RecyclerView
-
                     if(allSubSectionData!=null) {
                         //initCollapsingToolbar();
 
@@ -177,8 +157,6 @@ public class InformationRequirements extends AppCompatActivity {
                         my_recycler_view.setAdapter(adapter);
 
                     }
-
-
 
 
                 }
