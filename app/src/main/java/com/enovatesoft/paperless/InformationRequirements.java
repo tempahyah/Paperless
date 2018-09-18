@@ -42,7 +42,7 @@ public class InformationRequirements extends AppCompatActivity {
 
 
     List<DataRequirements> allSubSectionData;
-    private String TEST_URL="http://192.168.8.9/paperless/imageAPI.php\"";
+    private String TEST_URL="http://192.168.8.9/paperless/imageAPI.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
