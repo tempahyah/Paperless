@@ -113,8 +113,6 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
                 }
             });
 
-
-
         }
 
     }

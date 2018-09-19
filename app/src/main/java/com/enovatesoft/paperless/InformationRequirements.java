@@ -2,13 +2,17 @@ package com.enovatesoft.paperless;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.icu.text.IDNA;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.enovatesoft.paperless.adapters.RecyclerViewDataRequirementsAdapater;
@@ -92,6 +96,99 @@ public class InformationRequirements extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 dismissProgressDialog();
 
+                List<SubSection> Nationality= new ArrayList<>();
+                List<SubSection> Residence= new ArrayList<>();
+                List<SubSection> Education= new ArrayList<>();
+                List<SubSection> Employment= new ArrayList<>();
+
+                //Nationality
+                SubSection passport = new SubSection("Passport","http://mochasoft.com/input/icon180.png");
+                Nationality.add(passport);
+
+                SubSection BirthCertificate = new SubSection("Birth Certificate","http://mochasoft.com/input/icon180.png");
+                Nationality.add(BirthCertificate);
+
+                SubSection driverLicence = new SubSection("Driving License","http://mochasoft.com/input/icon180.png");
+                Nationality.add(driverLicence);
+
+                SubSection voterID = new SubSection("Voter's ID  ","http://mochasoft.com/input/icon180.png");
+                Nationality.add(voterID);
+
+                SubSection national_id = new SubSection("National ID","http://mochasoft.com/input/icon180.png");
+                Nationality.add(national_id);
+
+                SubSection school_id = new SubSection("School ID","http://mochasoft.com/input/icon180.png");
+                Nationality.add(school_id);
+
+                //Employment
+                SubSection empID = new SubSection("Employee ID","http://mochasoft.com/input/icon180.png");
+                Employment.add(empID);
+
+                SubSection empLetter = new SubSection("Employment Letter","http://mochasoft.com/input/icon180.png");
+                Employment.add(empLetter);
+
+                SubSection empRef = new SubSection("Employment Reference","http://mochasoft.com/input/icon180.png");
+                Employment.add(empRef);
+
+                SubSection memorundum = new SubSection("Memorandum of Association","http://mochasoft.com/input/icon180.png");
+                Employment.add(memorundum);
+
+
+                //Residence
+                SubSection lcLetter = new SubSection("LC Letter","http://mochasoft.com/input/icon180.png");
+                Residence.add(lcLetter);
+
+                SubSection utilityBill = new SubSection("Utility Bill  ","http://mochasoft.com/input/icon180.png");
+                Residence.add(utilityBill);
+
+                SubSection tenancyAgreement = new SubSection("Tenancy Agreement  ","http://mochasoft.com/input/icon180.png");
+                Residence.add(tenancyAgreement);
+
+                SubSection residentialID = new SubSection("Residential ID","http://mochasoft.com/input/icon180.png");
+                Residence.add(residentialID);
+
+                //Education
+                SubSection univTrans = new SubSection("University Transcript","http://mochasoft.com/input/icon180.png");
+                Education.add(univTrans);
+
+                SubSection diplomaCert = new SubSection("Diploma Certificate","http://mochasoft.com/input/icon180.png");
+                Education.add(diplomaCert);
+
+                SubSection uce = new SubSection("U.C.E Certificate","http://mochasoft.com/input/icon180.png");
+                Education.add(uce);
+
+                SubSection ple = new SubSection("P.L.E Recommendation","http://mochasoft.com/input/icon180.png");
+                Education.add(ple);
+
+                SubSection UACE = new SubSection("U.A.C.E Certificate","http://mochasoft.com/input/icon180.png");
+                Education.add(UACE);
+
+                SubSection otherCertificate = new SubSection("Other Education Document","http://mochasoft.com/input/icon180.png");
+                Education.add(otherCertificate);
+
+                DataRequirements dataEmployment = new DataRequirements();
+                dataEmployment.setSubTitle("Employment");
+                dataEmployment.setSubSection(Employment);
+
+                DataRequirements dataResidence = new DataRequirements();
+                dataResidence.setSubTitle("Residence");
+                dataResidence.setSubSection(Residence);
+
+                DataRequirements dataNationality = new DataRequirements();
+                dataNationality.setSubTitle("Nationality");
+                dataNationality.setSubSection(Nationality);
+
+                DataRequirements dataEducation = new DataRequirements();
+                dataEducation.setSubTitle("Education");
+                dataEducation.setSubSection(Education);
+
+
+                allSubSectionData.add(dataEmployment);
+                allSubSectionData.add(dataResidence);
+                allSubSectionData.add(dataNationality);
+                allSubSectionData.add(dataEducation);
+
+
                 if (statusCode == 200 && response != null) {
                     Log.i("response-", response.toString());
 
@@ -111,13 +208,17 @@ public class InformationRequirements extends AppCompatActivity {
                             List<SubSection> subSections= new ArrayList<>();
 
 
+
                             JSONArray sectionsArray=sectionObj.getJSONArray("subsection");
+
+
 
                             for(int j=0;j<sectionsArray.length();j++)
                             {
 
-                                JSONObject obj= (JSONObject) sectionsArray.get(j);
 
+
+                                /*JSONObject obj= (JSONObject) sectionsArray.get(j);
 
                                 SubSection subSection = new SubSection();
 
@@ -125,14 +226,18 @@ public class InformationRequirements extends AppCompatActivity {
                                 subSection.setImage(obj.getString("doc_path"));
 
 
-                                subSections.add(subSection);
+                                subSections.add(subSection);*/
                             }
 
-                            DataRequirements data= new DataRequirements();
+                            /*DataRequirements data= new DataRequirements();
                             data.setSubTitle(subTitle);
-                            data.setSubSection(subSections);
+                            data.setSubSection(subSections);*/
 
-                            allSubSectionData.add(data);
+                            /*DataRequirements data2 = new DataRequirements();
+                            data2.setSubTitle("yahaya");
+                            data2.setSubSection(subSections2);
+
+                            allSubSectionData.add(data2);*/
 
                         }
 
@@ -181,5 +286,29 @@ public class InformationRequirements extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.information_requirements, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_refresh) {
+            finish();
+            startActivity(getIntent());
+            //return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

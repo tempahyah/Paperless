@@ -248,7 +248,14 @@ public class NewCustomer extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this,"Still Under Development", Toast.LENGTH_LONG).show();
+
             return true;
+        }
+
+        if (id == R.id.action_refresh) {
+            finish();
+            startActivity(getIntent());
         }
 
         return super.onOptionsItemSelected(item);

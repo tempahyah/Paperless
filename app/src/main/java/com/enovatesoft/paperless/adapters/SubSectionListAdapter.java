@@ -52,7 +52,7 @@ public class SubSectionListAdapter extends RecyclerView.Adapter<SubSectionListAd
                 .load(subSectionSingleItem.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .error(R.drawable.cameradefault)
+                .error(R.drawable.capture)
                 .into(holder2.subImage);
 
         holder2.overflow.setOnClickListener(new View.OnClickListener() {
