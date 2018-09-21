@@ -103,6 +103,7 @@ public class SubSectionListAdapter extends RecyclerView.Adapter<SubSectionListAd
             subImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    showPopUpMenu(subImage);
 
                 }
             });
@@ -123,8 +124,7 @@ public class SubSectionListAdapter extends RecyclerView.Adapter<SubSectionListAd
 
                 case R.id.action_camera:
                     Toast.makeText(mContext, "Camera App opening. . . ", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    mContext.startActivity(intent);
+
                     return true;
 
                 case R.id.action_like:
@@ -143,5 +143,6 @@ public class SubSectionListAdapter extends RecyclerView.Adapter<SubSectionListAd
             return false;
         }
     }
+
 
 }

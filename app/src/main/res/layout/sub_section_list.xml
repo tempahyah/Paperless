@@ -37,9 +37,6 @@
                     android:textColor="#F93B46"
                     android:textSize="23sp" />
 
-
-
-
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView

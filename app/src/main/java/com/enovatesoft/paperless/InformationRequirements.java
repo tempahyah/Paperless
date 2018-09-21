@@ -1,8 +1,13 @@
 package com.enovatesoft.paperless;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.IDNA;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +42,7 @@ public class InformationRequirements extends AppCompatActivity {
 
     List<DataRequirements> allSubSectionData;
     private String TEST_URL="http://192.168.8.9/paperless/imageAPI.php";
+    private static final int  CAMERA_REQUEST = 1 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,8 @@ public class InformationRequirements extends AppCompatActivity {
         nameField = findViewById(R.id.nameField);
         uIdField = findViewById(R.id.uIdField);
         submit_details = findViewById(R.id.submit_details);
+
+
         pSave = new ProgressDialog(InformationRequirements.this);
 
         submit_details.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +78,12 @@ public class InformationRequirements extends AppCompatActivity {
         nameField.setText(name);
         uIdField.setText(uId);
 
+
+
     }
+
+
+
     public void showProgressDialog() {
 
         pDialog = new ProgressDialog(InformationRequirements.this);
@@ -96,98 +110,6 @@ public class InformationRequirements extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 dismissProgressDialog();
 
-                List<SubSection> Nationality= new ArrayList<>();
-                List<SubSection> Residence= new ArrayList<>();
-                List<SubSection> Education= new ArrayList<>();
-                List<SubSection> Employment= new ArrayList<>();
-
-                //Nationality
-                SubSection passport = new SubSection("Passport","http://mochasoft.com/input/icon180.png");
-                Nationality.add(passport);
-
-                SubSection BirthCertificate = new SubSection("Birth Certificate","http://mochasoft.com/input/icon180.png");
-                Nationality.add(BirthCertificate);
-
-                SubSection driverLicence = new SubSection("Driving License","http://mochasoft.com/input/icon180.png");
-                Nationality.add(driverLicence);
-
-                SubSection voterID = new SubSection("Voter's ID  ","http://mochasoft.com/input/icon180.png");
-                Nationality.add(voterID);
-
-                SubSection national_id = new SubSection("National ID","http://mochasoft.com/input/icon180.png");
-                Nationality.add(national_id);
-
-                SubSection school_id = new SubSection("School ID","http://mochasoft.com/input/icon180.png");
-                Nationality.add(school_id);
-
-                //Employment
-                SubSection empID = new SubSection("Employee ID","http://mochasoft.com/input/icon180.png");
-                Employment.add(empID);
-
-                SubSection empLetter = new SubSection("Employment Letter","http://mochasoft.com/input/icon180.png");
-                Employment.add(empLetter);
-
-                SubSection empRef = new SubSection("Employment Reference","http://mochasoft.com/input/icon180.png");
-                Employment.add(empRef);
-
-                SubSection memorundum = new SubSection("Memorandum of Association","http://mochasoft.com/input/icon180.png");
-                Employment.add(memorundum);
-
-
-                //Residence
-                SubSection lcLetter = new SubSection("LC Letter","http://mochasoft.com/input/icon180.png");
-                Residence.add(lcLetter);
-
-                SubSection utilityBill = new SubSection("Utility Bill  ","http://mochasoft.com/input/icon180.png");
-                Residence.add(utilityBill);
-
-                SubSection tenancyAgreement = new SubSection("Tenancy Agreement  ","http://mochasoft.com/input/icon180.png");
-                Residence.add(tenancyAgreement);
-
-                SubSection residentialID = new SubSection("Residential ID","http://mochasoft.com/input/icon180.png");
-                Residence.add(residentialID);
-
-                //Education
-                SubSection univTrans = new SubSection("University Transcript","http://mochasoft.com/input/icon180.png");
-                Education.add(univTrans);
-
-                SubSection diplomaCert = new SubSection("Diploma Certificate","http://mochasoft.com/input/icon180.png");
-                Education.add(diplomaCert);
-
-                SubSection uce = new SubSection("U.C.E Certificate","http://mochasoft.com/input/icon180.png");
-                Education.add(uce);
-
-                SubSection ple = new SubSection("P.L.E Recommendation","http://mochasoft.com/input/icon180.png");
-                Education.add(ple);
-
-                SubSection UACE = new SubSection("U.A.C.E Certificate","http://mochasoft.com/input/icon180.png");
-                Education.add(UACE);
-
-                SubSection otherCertificate = new SubSection("Other Education Document","http://mochasoft.com/input/icon180.png");
-                Education.add(otherCertificate);
-
-                DataRequirements dataEmployment = new DataRequirements();
-                dataEmployment.setSubTitle("Employment");
-                dataEmployment.setSubSection(Employment);
-
-                DataRequirements dataResidence = new DataRequirements();
-                dataResidence.setSubTitle("Residence");
-                dataResidence.setSubSection(Residence);
-
-                DataRequirements dataNationality = new DataRequirements();
-                dataNationality.setSubTitle("Nationality");
-                dataNationality.setSubSection(Nationality);
-
-                DataRequirements dataEducation = new DataRequirements();
-                dataEducation.setSubTitle("Education");
-                dataEducation.setSubSection(Education);
-
-
-                allSubSectionData.add(dataEmployment);
-                allSubSectionData.add(dataResidence);
-                allSubSectionData.add(dataNationality);
-                allSubSectionData.add(dataEducation);
-
 
                 if (statusCode == 200 && response != null) {
                     Log.i("response-", response.toString());
@@ -204,7 +126,6 @@ public class InformationRequirements extends AppCompatActivity {
 
                             String subTitle= sectionObj.getString("subtitle");
 
-
                             List<SubSection> subSections= new ArrayList<>();
 
 
@@ -216,28 +137,33 @@ public class InformationRequirements extends AppCompatActivity {
                             for(int j=0;j<sectionsArray.length();j++)
                             {
 
+                                JSONObject obj= (JSONObject) sectionsArray.get(j);
+
+                                String nameUser = obj.getString("name");
+
+                                Intent reqts = getIntent();
+                                String nameSent = reqts.getExtras().getString("name");
+
+                                if(nameUser.equals(nameSent)){
+                                    SubSection subSection = new SubSection();
+                                    subSection.setName(obj.getString("document_type")+"  ");
+                                    subSection.setImage(obj.getString("doc_path")+"  ");
+
+                                    subSections.add(subSection);
+                                }
 
 
-                                /*JSONObject obj= (JSONObject) sectionsArray.get(j);
-
-                                SubSection subSection = new SubSection();
-
-                                subSection.setName(obj.getString("document_type"));
-                                subSection.setImage(obj.getString("doc_path"));
 
 
-                                subSections.add(subSection);*/
+
                             }
 
-                            /*DataRequirements data= new DataRequirements();
+                            DataRequirements data= new DataRequirements();
                             data.setSubTitle(subTitle);
-                            data.setSubSection(subSections);*/
+                            data.setSubSection(subSections);
 
-                            /*DataRequirements data2 = new DataRequirements();
-                            data2.setSubTitle("yahaya");
-                            data2.setSubSection(subSections2);
 
-                            allSubSectionData.add(data2);*/
+                            allSubSectionData.add(data);
 
                         }
 
