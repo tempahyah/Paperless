@@ -32,20 +32,20 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:text="Information Requirement"
+                    android:textColor="#0E01AD"
                     android:textStyle="bold"
-                    android:fontFamily="serif"
-                    android:textColor="#F93B46"
                     android:textSize="23sp" />
 
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_list_sub_section"
-                android:padding="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:layout_gravity="center_vertical"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:padding="5dp" />
 
 
         </LinearLayout>

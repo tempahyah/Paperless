@@ -9,5 +9,9 @@
         android:id="@+id/action_like"
         android:orderInCategory="101"
         android:title="@string/like" />
+    <item
+        android:id="@+id/action_fingerprint"
+        android:orderInCategory="101"
+        android:title="Get Finger Print" />
 
 </menu>

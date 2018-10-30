@@ -3,13 +3,15 @@ package com.enovatesoft.paperless.models;
 public class SubSection {
 
     private String name;
+    private String sid;
     private String image;
 
     public SubSection() {
     }
 
-    public SubSection(String name, String image) {
+    public SubSection(String name,String sid, String image) {
         this.name = name;
+        this.sid = sid;
         this.image = image;
     }
 
@@ -19,6 +21,14 @@ public class SubSection {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 
     public String getImage() {

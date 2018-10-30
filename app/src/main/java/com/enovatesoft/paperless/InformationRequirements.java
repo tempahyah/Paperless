@@ -1,15 +1,11 @@
 package com.enovatesoft.paperless;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.text.IDNA;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
-import android.net.Uri;
-import android.support.v7.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.enovatesoft.paperless.adapters.RecyclerViewDataRequirementsAdapater;
@@ -36,13 +30,15 @@ import cz.msebera.android.httpclient.Header;
 public class InformationRequirements extends AppCompatActivity {
 
     private ProgressDialog pDialog, pSave;
+    private CardView cardView;
     private Button submit_details;
 
-    private TextView nameField, uIdField;
+    private TextView nameField;
+    public TextView uIdField;
 
     List<DataRequirements> allSubSectionData;
-    private String TEST_URL="http://192.168.8.9/paperless/imageAPI.php";
-    private static final int  CAMERA_REQUEST = 1 ;
+    private String TEST_URL="http://192.168.8.9/paperless/side.php";
+    private String rim, getName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +47,9 @@ public class InformationRequirements extends AppCompatActivity {
         nameField = findViewById(R.id.nameField);
         uIdField = findViewById(R.id.uIdField);
         submit_details = findViewById(R.id.submit_details);
+
+        cardView = findViewById(R.id.card_view);
+
 
 
         pSave = new ProgressDialog(InformationRequirements.this);
@@ -74,14 +73,17 @@ public class InformationRequirements extends AppCompatActivity {
         String name = reqts.getExtras().getString("name").toUpperCase();
         String uId = reqts.getExtras().getString("uid");
 
+        getName = reqts.getExtras().getString("uid");
+        rim = reqts.getExtras().getString("uid");
+
         //Binding values to TextViews
         nameField.setText(name);
-        uIdField.setText(uId);
+        uIdField.setText("Client ID: "+uId);
 
-
+        SharedPreferences mPref= this.getSharedPreferences("session", MODE_WORLD_READABLE);
+        mPref.edit().putString("uid", rim).commit();
 
     }
-
 
 
     public void showProgressDialog() {
@@ -129,7 +131,6 @@ public class InformationRequirements extends AppCompatActivity {
                             List<SubSection> subSections= new ArrayList<>();
 
 
-
                             JSONArray sectionsArray=sectionObj.getJSONArray("subsection");
 
 
@@ -139,21 +140,14 @@ public class InformationRequirements extends AppCompatActivity {
 
                                 JSONObject obj= (JSONObject) sectionsArray.get(j);
 
-                                String nameUser = obj.getString("name");
+                                String sid = obj.getString("sid");
 
-                                Intent reqts = getIntent();
-                                String nameSent = reqts.getExtras().getString("name");
+                                SubSection subSection = new SubSection();
+                                subSection.setName(obj.getString("document_type")+"  ");
+                                subSection.setImage("http://192.168.8.9/paperless/doc_capture2.png");
+                                subSection.setSid(sid);
 
-                                if(nameUser.equals(nameSent)){
-                                    SubSection subSection = new SubSection();
-                                    subSection.setName(obj.getString("document_type")+"  ");
-                                    subSection.setImage(obj.getString("doc_path")+"  ");
-
-                                    subSections.add(subSection);
-                                }
-
-
-
+                                subSections.add(subSection);
 
 
                             }
@@ -235,6 +229,7 @@ public class InformationRequirements extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 
 }

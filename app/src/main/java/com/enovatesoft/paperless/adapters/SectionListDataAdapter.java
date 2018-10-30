@@ -15,7 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.enovatesoft.paperless.InformationRequirements;
 import com.enovatesoft.paperless.R;
 import com.enovatesoft.paperless.models.Section;
-import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 
@@ -89,7 +89,6 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
                             reqts.putExtra("uid",tvUid.getText().toString());
                             view.getContext().startActivity(reqts);
 
-
                         }
                     });
 
@@ -99,17 +98,10 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
             itemImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    cardView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent reqts = new Intent (view.getContext(), InformationRequirements.class);
-                            reqts.putExtra("name",tvName.getText().toString());
-                            reqts.putExtra("uid",tvUid.getText().toString());
-                            view.getContext().startActivity(reqts);
-
-
-                        }
-                    });
+                    Intent reqts = new Intent (view.getContext(), InformationRequirements.class);
+                    reqts.putExtra("name",tvName.getText().toString());
+                    reqts.putExtra("uid",tvUid.getText().toString());
+                    view.getContext().startActivity(reqts);
                 }
             });
 

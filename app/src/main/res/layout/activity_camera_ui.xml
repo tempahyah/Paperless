@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="10dp"
+    android:background="#fff"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="IMAGE CAPTURE"
+                android:textAlignment="center"
+                android:textSize="26dp"
+                android:textColor="#342D88"
+                android:textStyle="bold"
+                android:fontFamily="serif"
+                android:paddingBottom="4dp"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+                android:layout_marginBottom="10dp">
+            </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#1B00FF"
+                android:id="@+id/tvRim"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_margin="5dp"
+                android:text="Customer Rim"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#1B00FF"
+                android:id="@+id/customerRim"
+                android:layout_margin="5dp"
+                android:hint="Customer Rim"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#C61500"
+                android:id="@+id/tvSettingId"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:text="Settings ID"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#C61500"
+                android:id="@+id/settingId"
+                android:layout_margin="5dp"
+                android:hint="Settings ID"/>
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Open Camera"
+                android:textColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:id="@+id/buttonSelect"
+                android:background="@drawable/button_shape"
+                android:layout_margin="10dp"/>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="270dp"
+                android:src="@drawable/capture"
+                android:id="@+id/imageView"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+
+                <Button
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="Upload >>"
+                    android:textColor="#FFF"
+                    android:background="@color/colorPrimary"
+                    android:id="@+id/buttonUpload"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

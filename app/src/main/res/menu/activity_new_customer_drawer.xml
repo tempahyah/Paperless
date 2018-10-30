@@ -12,10 +12,11 @@
             android:id="@+id/nav_new_transactions"
             android:icon="@drawable/transaction_people"
             android:title="New Transactions" />
+
         <item
-            android:id="@+id/nav_existing_customers"
-            android:icon="@drawable/existing_customers"
-            android:title="Existing Customers" />
+            android:id="@+id/nav_conkev_web"
+            android:icon="@drawable/qr_icon"
+            android:title="Conkev Web" />
     </group>
 
     <item android:title=" ">

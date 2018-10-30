@@ -8,5 +8,21 @@
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
     <color name="viewBg">#f1f5f8</color>
+    <color name="Red">#DE220C</color>
     <color name="album_title">#4c4c4c</color>
+    <color name="bg_login">#26ae90</color>
+    <color name="bg_register">#2e3237</color>
+    <color name="bg_main">#428bca</color>
+    <color name="white">#ffffff</color>
+    <color name="input_login">#222222</color>
+    <color name="input_login_hint">#999999</color>
+    <color name="input_register">#888888</color>
+    <color name="input_register_bg">#3b4148</color>
+    <color name="input_register_hint">#5e6266</color>
+    <color name="btn_login">#26ae90</color>
+    <color name="btn_login_bg">#eceef1</color>
+    <color name="lbl_name">#333333</color>
+    <color name="btn_logut_bg">#ff6861</color>
+    <color name="btn_disabled">#999</color>
+    <color name="lbl_value">#222222</color>
 </resources>

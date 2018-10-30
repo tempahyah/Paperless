@@ -3,8 +3,12 @@
     package="com.enovatesoft.paperless">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".app.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NewCustomer"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,7 +25,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InformationRequirements"></activity>
+        <activity
+            android:name=".InformationRequirements"
+            android:label="Information Requirements" />
+        <activity
+            android:name=".CameraUI"
+            android:label="Document Capture" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".NewCustomer"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="User Sign Up"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".About"
+            android:label="About Paperless" />
+        <activity android:name=".ScanActivity" />
+        <activity android:name=".CustomerDetails" />
+        <activity android:name=".QRCapture" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".TransactionPage"
+            android:label="Transactions" />
+        <activity
+            android:name=".DocumentsRequired"
+            android:label="Capture Required Documents" />
+        <activity
+            android:name=".CameraCapture"
+            android:label="Scan Document" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".TransactionSearch"></activity>
     </application>
 
 </manifest>

@@ -1,44 +1,42 @@
 package com.enovatesoft.paperless;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.cardview.*;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import java.util.HashMap;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.app.ProgressDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import com.enovatesoft.paperless.helper.SQLiteHandler;
+import com.enovatesoft.paperless.helper.SessionManager;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.enovatesoft.paperless.adapters.RecyclerViewDataAdapter;
 import com.enovatesoft.paperless.models.Data;
 import com.enovatesoft.paperless.models.Section;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
 import cz.msebera.android.httpclient.Header;
 
 
@@ -46,34 +44,55 @@ public class NewCustomer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     //CardView cardView;
     private ProgressDialog pDialog;
-    private ImageView imageView;
 
+    private TextView tvUserName, tvUserEmail;
+
+    private SQLiteHandler db;
+    private SessionManager session;
+
+    private boolean fabExpanded = false;
+    private FloatingActionButton fabSearch,fabNewCustomers, fabTransaction, fabExistingCustomers;
+    private LinearLayout layoutFabNewCustomers;
+    private LinearLayout layoutFabTransactions;
+    private LinearLayout layoutFabExistingCustomers;
+    private RelativeLayout obstrucuterView;
 
     List<Data> allSampleData;
 
-
     private String TEST_URL="http://192.168.8.9/dynamic.php";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_customer);
-        //cardView = findViewById(R.id.card_view);
 
-
-        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.profilepic);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        imageView = findViewById(R.id.itemImage);
 
 
         //setSupportActionBar(toolbar);
         if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            toolbar.setTitle("Paperless");
+            //setSupportActionBar(toolbar);
+            toolbar.setTitle("New Customers");
+
+
 
         }
         //initCollapsingToolbar();
+        // SqLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // session manager
+        session = new SessionManager(getApplicationContext());
+
+        if (!session.isLoggedIn()) {
+            logoutUser();
+        }
+
+        // Fetching user details from SQLite
+        HashMap<String, String> user = db.getUserDetails();
+
+        String name = user.get("name");
+        String email = user.get("email");
 
         allSampleData = new ArrayList<Data>();
 
@@ -88,7 +107,91 @@ public class NewCustomer extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
+
+        tvUserName = headerView.findViewById(R.id.tvUserName);
+        tvUserEmail = headerView.findViewById(R.id.tvUserEmail);
+
+        // Displaying the user details on the screen
+        tvUserName.setText("Logged in as "+name);
+        tvUserEmail.setText(email);
+        obstrucuterView =findViewById(R.id.obstructor);
+
+
+        fabSearch = this.findViewById(R.id.fabSearch);
+        fabNewCustomers = this.findViewById(R.id.fabNewCustomers);
+        fabTransaction = this.findViewById(R.id.fabTransaction);
+        fabExistingCustomers = this.findViewById(R.id.fabExistingCustomers);
+
+        layoutFabNewCustomers = this.findViewById(R.id.layoutFabNewCustomers);
+        layoutFabTransactions =  this.findViewById(R.id.layoutFabTransactions);
+        layoutFabExistingCustomers = this.findViewById(R.id.layoutFabExistingCustomers);
+
+        fabSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fabExpanded == true){
+                    closeSubMenusFab();
+                } else {
+                    openSubMenusFab();
+                }
+            }
+        });
+
+
+        //Only main FAB is visible in the beginning
+        closeSubMenusFab();
+
+    }
+
+    //closes FAB submenus
+    private void closeSubMenusFab(){
+        layoutFabNewCustomers.setVisibility(View.INVISIBLE);
+        layoutFabTransactions.setVisibility(View.INVISIBLE);
+        layoutFabExistingCustomers.setVisibility(View.INVISIBLE);
+        fabSearch.setImageResource(R.drawable.search_white);
+        fabExpanded = false;
+        if (obstrucuterView.getVisibility() == View.VISIBLE)
+            obstrucuterView.setVisibility(View.INVISIBLE);
+    }
+
+    //Opens FAB submenus
+    private void openSubMenusFab(){
+        layoutFabNewCustomers.setVisibility(View.VISIBLE);
+        layoutFabTransactions.setVisibility(View.VISIBLE);
+        layoutFabExistingCustomers.setVisibility(View.VISIBLE);
+        //Change settings icon to 'X' icon
+        fabSearch.setImageResource(R.drawable.ic_close);
+        fabExpanded = true;
+        if (obstrucuterView.getVisibility() == View.INVISIBLE)
+            obstrucuterView.setVisibility(View.VISIBLE);
+
+
+        fabNewCustomers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent search = new Intent (NewCustomer.this, SearchActivity.class);
+                startActivity(search);
+            }
+        });
+
+        fabTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent transacts = new Intent (NewCustomer.this, TransactionSearch.class);
+                startActivity(transacts);
+
+            }
+        });
+
+        fabExistingCustomers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(NewCustomer.this,"Still Under Development...", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
@@ -124,17 +227,13 @@ public class NewCustomer extends AppCompatActivity
                     try {
                         JSONArray dataArary= response.getJSONArray("data");
 
-
-
                         for(int i=0;i<dataArary.length();i++)
                         {
                             JSONObject sectionObj= (JSONObject) dataArary.get(i);
 
                             String title= sectionObj.getString("title");
 
-
-                            List<Section> sections= new ArrayList<Section>();
-
+                            List<Section> sections= new ArrayList<>();
 
                             JSONArray sectionsArray=sectionObj.getJSONArray("section");
 
@@ -143,14 +242,13 @@ public class NewCustomer extends AppCompatActivity
 
                                 final JSONObject obj= (JSONObject) sectionsArray.get(j);
 
-
                                 Section section = new Section();
                                 String id = obj.getString("rim");
                                 String name = obj.getString("name");
                                 String image = obj.getString("image");
 
                                 section.setName(name);
-                                section.setuId("Client ID: "+id);
+                                section.setuId(id);
                                 section.setImage(image);
 
                                 sections.add(section);
@@ -170,14 +268,6 @@ public class NewCustomer extends AppCompatActivity
                         Toast.makeText(NewCustomer.this,"Parsing Error",Toast.LENGTH_SHORT).show();
                     }
 
-
-                    // Converst json to Object Model data
-                   /* Gson gson = new Gson();
-                    Type collectionType = new TypeToken<Data>() {
-                    }.getType();
-                    allSampleData = gson.fromJson(response.toString(), collectionType);*/
-
-
                     // setting data to RecyclerView
 
                     if(allSampleData!=null) {
@@ -195,15 +285,11 @@ public class NewCustomer extends AppCompatActivity
 
                     }
 
-
-
-
                 }
                 else {
                     Toast.makeText(NewCustomer.this,"Connection Error",Toast.LENGTH_SHORT).show();
 
                 }
-
 
             }
 
@@ -221,15 +307,41 @@ public class NewCustomer extends AppCompatActivity
         });
     }
 
-
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            new AlertDialog.Builder(this)
+                    .setTitle("Exit")
+                    .setMessage("Are you sure you want to exit?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            NewCustomer.super.onBackPressed();
+                        }
+                    }).create().show();
         }
+    }
+
+    /**
+     * Logging out the user. Will set isLoggedIn flag to false in shared
+     * preferences Clears the user data from sqlite users table
+     * */
+    private void logoutUser() {
+        session.setLogin(false);
+
+        db.deleteUsers();
+
+        /** Launching the login activity
+         *
+         **/
+        Intent intent = new Intent(NewCustomer.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -258,6 +370,15 @@ public class NewCustomer extends AppCompatActivity
             startActivity(getIntent());
         }
 
+        if (id == R.id.action_logout) {
+            logoutUser();
+        }
+
+        if (id == R.id.action_search) {
+            Intent search = new Intent(this, SearchActivity.class);
+            startActivity(search);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -273,16 +394,29 @@ public class NewCustomer extends AppCompatActivity
             startActivity(newCustomer);
 
         } else if (id == R.id.nav_new_transactions) {
+            //Toast.makeText(NewCustomer.this, "Still Under Development", Toast.LENGTH_LONG).show();
 
-        } else if (id == R.id.nav_existing_customers) {
+            Intent transactions = new Intent(this, TransactionPage.class);
+            startActivity(transactions);
 
-        } else if (id == R.id.nav_share) {
+        }else if (id == R.id.nav_conkev_web) {
+            Intent qrcode = new Intent(this, ScanActivity.class);
+            startActivity(qrcode);
+
+        }else if (id == R.id.nav_share) {
+            Intent about_us = new Intent(this, About.class);
+            startActivity(about_us);
 
         } else if (id == R.id.nav_send) {
+            Toast.makeText(NewCustomer.this, "Still Under Development", Toast.LENGTH_LONG).show();
+
+        }else if (id==R.id.nav_logout){
+            logoutUser();
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

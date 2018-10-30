@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/card_margin"
+        android:elevation="6dp"
+        card_view:cardCornerRadius="@dimen/card_album_radius"
+        tools:targetApi="lollipop">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/document_image"
+                android:layout_marginTop="7dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"/>
+
+            <TextView
+                android:id="@+id/document_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/document_image"
+                android:layout_margin="10dp"
+                android:textColor="#000000"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="9dp"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/setting_id_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/document_image"
+                android:layout_below="@id/document_type"
+                android:textColor="#000000"
+                android:layout_marginLeft="10dp"
+                android:text="Setting ID: "
+                android:layout_marginTop="3dp"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/setting_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/setting_id_tv"
+                android:layout_below="@id/document_type"
+                android:textColor="#000000"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/already_captured"
+                android:layout_width="wrap_content"
+                android:textStyle="italic"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/document_image"
+                android:layout_below="@id/setting_id_tv"
+                android:textColor="#000000"
+                android:layout_marginLeft="99dp"
+                android:layout_marginTop="3dp"
+                android:textSize="20sp"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
