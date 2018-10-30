@@ -187,9 +187,7 @@ public class TransactionSearch extends AppCompatActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /**
-                     * Do Data Capture
-                     */
+
                     Toast.makeText(c, s.getName(), Toast.LENGTH_SHORT).show();
                 }
             });
