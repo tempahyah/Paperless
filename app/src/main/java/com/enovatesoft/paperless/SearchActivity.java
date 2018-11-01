@@ -15,13 +15,11 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,21 +161,21 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             TextView txtName = view.findViewById(R.id.nameTextView);
-            TextView txtPropellant = view.findViewById(R.id.propellantTextView);
-            ImageView spacecraftImageView = view.findViewById(R.id.spacecraftImageView);
+            TextView rim = view.findViewById(R.id.propellantTextView);
+            ImageView clientImage = view.findViewById(R.id.spacecraftImageView);
 
             final Spacecraft s= (Spacecraft) this.getItem(i);
 
             txtName.setText(s.getName());
-            txtPropellant.setText(s.getPropellant());
+            rim.setText(s.getPropellant());
 
 
             if(s.getImageURL() != null && s.getImageURL().length()>0)
             {
-                Picasso.get().load(s.getImageURL()).placeholder(R.drawable.profilepic).into(spacecraftImageView);
+                Picasso.get().load(s.getImageURL()).placeholder(R.drawable.profilepic).into(clientImage);
             }else {
                 //Toast.makeText(c, "Empty Image URL", Toast.LENGTH_LONG).show();
-                Picasso.get().load(R.drawable.profilepic).into(spacecraftImageView);
+                Picasso.get().load(R.drawable.profilepic).into(clientImage);
             }
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -256,7 +254,6 @@ public class SearchActivity extends AppCompatActivity {
                                     s.setName(name);
                                     s.setPropellant(propellant);
                                     s.setImageURL(imageURL);
-                                    //s.setTechnologyExists(techExists.equalsIgnoreCase("1") ? 1 : 0);
 
                                     downloadedData.add(s);
                                 }

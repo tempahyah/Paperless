@@ -1,6 +1,6 @@
 package com.enovatesoft.paperless;
 
-import android.app.Dialog;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.ProgressDialog;
@@ -9,13 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.enovatesoft.paperless.adapters.RecyclerViewTransactionsAdapter;
-import com.enovatesoft.paperless.adapters.TransactionListAdapter;
 import com.enovatesoft.paperless.models.DataTransaction;
 import com.enovatesoft.paperless.models.TransactionDetails;
 import com.loopj.android.http.AsyncHttpClient;
@@ -81,8 +76,6 @@ public class TransactionPage extends AppCompatActivity {
                     try {
                         JSONArray dataArary= response.getJSONArray("transactions");
 
-
-
                         for(int i=0;i<dataArary.length();i++)
                         {
                             JSONObject sectionObj= (JSONObject) dataArary.get(i);
@@ -105,7 +98,16 @@ public class TransactionPage extends AppCompatActivity {
                                 subSection.setAccount_name(obj.getString("account_name"));
 
                                 subSection.setAccount_number("Account No.: "+obj.getString("account_number"));
-                                subSection.setCustomerImage("http://192.168.8.9/paperless/iconTrans.png");
+                                String image;
+
+                                if(subTitle=="Credit"){
+                                     image = "http://192.168.8.9/paperless/creditcard.png";
+
+                                }else{
+                                    image = "http://192.168.8.9/paperless/iconTrans.png";
+                                }
+
+                                subSection.setCustomerImage(image);
 
                                 //Dialog Setting Items
                                 subSection.setTransaction_idDiaog(obj.getString("transaction_id"));
